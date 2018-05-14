@@ -1,11 +1,12 @@
 <?php
   
   $str = file_get_contents('config.json');
-  $json = json_decode($str, true);
-  define("servername", $json['host']);
-  define("username", $json['username']);
-  define("password", $json['password']);
-  define("dbname", "aws_task");  
+  $db_info = explode(",", $str);  
+//  $json = json_decode($str, true);
+  define("servername", $db_info[0]);
+  define("username", $db_info[1]);
+  define("password", $db_info[2]);
+  define("dbname", $db_info[3]);  
 
 
   function createTableIfNotExist(){
@@ -155,18 +156,18 @@
           <th>Phone</th>
           <th>Address</th>
         </tr>
-         <?php for($i=0; $i< count($customer_data); $i++){?>
-        <tr>
-          <td><?php echo $customer_data[$i]['name'];?></td>
-          <td><?php echo $customer_data[$i]['phone'];?></td>
-          <td><?php echo $customer_data[$i]['address'];?></td>
-        </tr>
-          <?}?>  
+        <?php
+          foreach ($customer_data as $customer) {
+        ?>
+          <tr>
+            <td><?php echo $customer['name'];?></td>
+            <td><?php echo $customer['phone'];?></td>
+            <td><?php echo $customer['address'];?></td>
+          </tr>
+        <?php
+        }
+        ?>
       </table>    
     </div>
   </body>
 </html>
-
-
-
-
