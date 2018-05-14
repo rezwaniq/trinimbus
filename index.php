@@ -1,5 +1,11 @@
 <?php
-  
+
+  if(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == "off"){
+    $redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    header('HTTP/1.1 301 Moved Permanently');
+    header('Location: ' . $redirect);
+    exit();
+  }
   $str = file_get_contents('config.json');
   $db_info = explode(",", $str);  
 //  $json = json_decode($str, true);
